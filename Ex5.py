@@ -120,7 +120,7 @@ class bounded_subsets:
         return res
 
     def __update_indexes(self):
-        if not (self.indexes[self.vars - 1] >= (self.n - 1)):
+        if not (self.indexes[self.vars - 1] > (self.n - 1)):
             self.indexes[self.vars - 1] += 1
         else:
             # base case - end of the subsets with size 1.
@@ -138,16 +138,18 @@ class bounded_subsets:
             while last > 0:
                 if self.indexes[last] == (self.indexes[last - 1] + 1):
                     last -= 1
-                    break
+                    continue
                 else:
                     append = False
                     last -= 1
+                    break
             if append:
                 for i in range(self.vars):
                     self.indexes[i] = i
                 self.indexes.append(self.vars)
                 self.vars += 1
                 return
+
             self.indexes[last] += 1
             tmp = self.indexes[last] + 1
             for i in range(last + 1, self.vars):
